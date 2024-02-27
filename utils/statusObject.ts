@@ -5,7 +5,7 @@ type FailReturnType = {
   }
 }
 
-export type StatusObject<ReturnType> = (ReturnType | FailReturnType) & {
+export type StatusObject<ReturnType> = any | (ReturnType | FailReturnType) & {
   success: boolean
 }
 

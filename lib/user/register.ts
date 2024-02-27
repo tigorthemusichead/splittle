@@ -1,6 +1,6 @@
 import {currentUser} from "@clerk/nextjs";
 import prisma from '@/prisma/db'
-import {StatusFail, StatusObject, StatusSuccess} from "@/helpers/statusObject";
+import {StatusFail, StatusObject, StatusSuccess} from "@/utils/statusObject";
 
 type RegisterUserResponse = {clerk_id: string, createdAt: Date, name: string} | null | undefined
 

@@ -1,7 +1,7 @@
-import {StatusFail, StatusObject, StatusSuccess} from "@/helpers/statusObject";
+import {StatusFail, StatusObject, StatusSuccess} from "@/utils/statusObject";
 import prisma from "@/prisma/db"
 
-export type ReadGroupResponse =  {users: ({user: {clerk_id: string, createdAt: Date, name: string}} & {userId: string, groupId: number, assignedAt: Date})[], expenses: {id: number, name: string | null, amount: number, payerId: string, groupId: number}[], invites: {}[]} | null
+export type ReadGroupResponse = {users: ({user: {clerk_id: string, createdAt: Date, name: string}} & {userId: string, groupId: number, assignedAt: Date})[], expenses: {user: {clerk_id: string, createdAt: Date, name: string}, payedTo: {clerk_id: string, createdAt: Date, name: string} | null}[], invites: {}[]} | null
 
 export default async function readGroup (id: number): Promise<StatusObject<ReadGroupResponse>> {
   try {
@@ -15,7 +15,12 @@ export default async function readGroup (id: number): Promise<StatusObject<ReadG
             user: true
           }
         },
-        expenses: true,
+        expenses: {
+          include: {
+            user: true,
+            payedTo: true
+          }
+        },
         invites: true
       }
     })

@@ -4,6 +4,9 @@ import "./globals.css";
 import {ClerkProvider, currentUser} from "@clerk/nextjs";
 import React from "react";
 import registerUser from "@/lib/user/register";
+import '@radix-ui/themes/styles.css';
+import {Theme, ThemePanel} from "@radix-ui/themes";
+import Header from "@/components/chunks/header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,11 +24,18 @@ export default async function RootLayout({
   return (
 
       <html lang="en">
+          <head>
+              <title>Splittle</title>
+          </head>
         <body className={inter.className}>
         <ClerkProvider>
-          {
-            children
-          }
+          <Theme appearance="dark" accentColor="gray" panelBackground="solid" radius="large">
+            { /* <ThemePanel /> */}
+            <Header/>
+            {
+              children
+            }
+          </Theme>
         </ClerkProvider>
         </body>
       </html>

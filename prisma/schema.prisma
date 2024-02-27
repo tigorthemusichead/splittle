@@ -18,7 +18,8 @@ model User {
   createdAt DateTime @default(now())
   name      String @db.VarChar(255)
   groups    GroupsOnUsers[]
-  expenses Expense[]
+  payed_expenses Expense[] @relation(name: "Payer")
+  receiver_expenses Expense[] @relation(name: "Receiver")
   invites Invite[]
 }
 
@@ -44,10 +45,14 @@ model Expense {
   id Int @id @default(autoincrement())
   name String?
   amount Int
-  user User @relation(fields: [payerId], references: [clerk_id])
+  user User @relation(name: "Payer", fields: [payerId], references: [clerk_id])
   payerId String @db.VarChar(32)
   group Group @relation(fields: [groupId], references: [id])
   groupId Int
+  isSplit Boolean @default(false)
+  payedTo User? @relation(name: "Receiver", fields: [payedToId], references: [clerk_id])
+  payedToId String? @db.VarChar(32)
+  createdAt DateTime @default(now())
 }
 
 model Invite {

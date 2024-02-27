@@ -1,6 +1,6 @@
-import {StatusFail, StatusObject, StatusSuccess} from "@/helpers/statusObject";
+import {StatusFail, StatusObject, StatusSuccess} from "@/utils/statusObject";
 import prisma from "@/prisma/db"
-import allNotNull from "@/helpers/allNotNull";
+import allNotNull from "@/utils/allNotNull";
 
 export type UpdateGroupParams = {
   id: number

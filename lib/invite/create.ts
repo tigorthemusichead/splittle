@@ -1,5 +1,5 @@
-import {StatusFail, StatusObject, StatusSuccess} from "@/helpers/statusObject";
-import allNotNull from "@/helpers/allNotNull";
+import {StatusFail, StatusObject, StatusSuccess} from "@/utils/statusObject";
+import allNotNull from "@/utils/allNotNull";
 import prisma from "@/prisma/db";
 
 export type CreateInviteParams = {

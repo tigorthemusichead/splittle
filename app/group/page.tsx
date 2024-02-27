@@ -1,6 +1,8 @@
+'use server'
 import {currentUser} from "@clerk/nextjs";
 import readUser, {ReadUserResponse} from "@/lib/user/read";
 import Link from "next/link";
+import {HoverEffect} from "@/components/ui/card-hover-effect";
 
 export default async function Groups () {
   const user = await currentUser()
@@ -14,16 +16,22 @@ export default async function Groups () {
   const groups = response.groups
 
   return (
-    <section className={'container mx-auto'}>
-      <ul>
-        {
-          groups.map(({group}) => (
-            <li key={group.id}>
-              - <Link href={`/group/${group.id}`}>{group.name}</Link>
-            </li>
-          ))
-        }
-      </ul>
+    <section className={'container mx-auto min-h-screen px-4'}>
+      <HoverEffect
+        items={[
+          {
+            title: 'Create new',
+            description: 'Create a new group and invite your friends to split some money',
+            link: '/group/create',
+            meteors: true
+          },
+          ...groups.map(({group}) => ({
+            title: group.name,
+            description: '',
+            link: `/group/${group.id}`
+          }))
+        ]}
+      />
     </section>
   )
 }

@@ -6,6 +6,11 @@ services:
     build:
       dockerfile: Dockerfile
     restart: always
+    environment:
+      DATABASE_URL: postgresql://postgres:example@127.0.0.1:5432/postgres?schema=public
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_YWxsb3dlZC1iZWV0bGUtNTIuY2xlcmsuYWNjb3VudHMuZGV2JA
+      CLERK_SECRET_KEY: sk_test_wApHrctQeOxKi9OpqD3i0HIuMtZIwK6WwV36rOQiIr
+      NEXT_PUBLIC_APP_HOST: http://127.0.0.1
     ports:
       - "80:3000"
     depends_on:

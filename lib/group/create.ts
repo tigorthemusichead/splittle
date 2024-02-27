@@ -1,5 +1,5 @@
-import {StatusFail, StatusObject, StatusSuccess} from "@/helpers/statusObject";
-import allNotNull from "@/helpers/allNotNull";
+import {StatusFail, StatusObject, StatusSuccess} from "@/utils/statusObject";
+import allNotNull from "@/utils/allNotNull";
 import prisma from "@/prisma/db";
 
 export type CreateGroupParams = {
@@ -8,7 +8,7 @@ export type CreateGroupParams = {
   currency: string
 }
 
-type CreateGroupResponse =  {id: number, name: string, currency: string}
+export type CreateGroupResponse =  {id: number, name: string, currency: string}
 
 export default async function createGroup (params: CreateGroupParams): Promise<StatusObject<CreateGroupResponse>> {
   try {

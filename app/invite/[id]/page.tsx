@@ -4,11 +4,18 @@ import {currentUser, UserButton} from "@clerk/nextjs";
 import updateUser from "@/lib/user/update";
 import updateInvite from "@/lib/invite/update";
 import {redirect} from "next/navigation";
+import readGroup, {ReadGroupResponse} from "@/lib/group/read";
 
 export default async function Invite ({params}: {params: {id: string}}) {
   const {id} = params
   const inviteResponse = await readInvite(Number(id))
   const user = await currentUser()
+  const groupId = (inviteResponse as ReadInviteResponse).group.id
+  const group = await readGroup(groupId) as ReadGroupResponse
+
+  if ( group != null && group.users.length > 1) {
+    return <h1 className={'text-2xl'}>Group is already full</h1>
+  }
 
   if (!inviteResponse.success || user == null) {
     return <h1 className={'text-2xl'}>Some error occurred. The link might be incorrect</h1>
@@ -27,7 +34,7 @@ export default async function Invite ({params}: {params: {id: string}}) {
       <h1 className={'text-2xl my-2'}>
         User <b className={'text-gray-200'}>{(inviteResponse as ReadInviteResponse).user.name}</b> has invited you in a group <b className={'text-gray-200'}>{(inviteResponse as ReadInviteResponse).group.name}</b>
       </h1>
-      <JoinButton clerk_id={user.id} inviteId={Number(id)} groupId={(inviteResponse as ReadInviteResponse).group.id}/>
+      <JoinButton clerk_id={user.id} inviteId={Number(id)} groupId={groupId}/>
     </section>
   )
 }
