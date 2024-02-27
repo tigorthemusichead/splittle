@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  next-app:
+    container_name: next-app
+    build:
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "80:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: postgres
+    restart: always
+    user: postgres
+    environment:
+      POSTGRES_PASSWORD: example
+      # - POSTGRES_USER=admin
+      # - PGUSER=admin
+      # - POSTGRES_DB=splittle_db
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready", "psql", "-l" ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+    # volumes:
+    #   - pgdata:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+
+#volumes:
+#  pgdata:
+
