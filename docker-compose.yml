@@ -8,12 +8,11 @@ services:
     restart: always
     environment:
       DATABASE_URL: postgresql://postgres:example@db:5432/postgres?schema=public
-      # POSTGRES_PRISMA_URL: postgresql://postgres:example@127:0:0:1:5432/postgres?schema=public
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_YWxsb3dlZC1iZWV0bGUtNTIuY2xlcmsuYWNjb3VudHMuZGV2JA
       CLERK_SECRET_KEY: sk_test_wApHrctQeOxKi9OpqD3i0HIuMtZIwK6WwV36rOQiIr
       NEXT_PUBLIC_APP_HOST: http://127.0.0.1
     ports:
-      - "80:3000"
+      - "3000:3000"
     depends_on:
       db:
         condition: service_healthy
@@ -23,9 +22,6 @@ services:
     user: postgres
     environment:
       POSTGRES_PASSWORD: example
-      # - POSTGRES_USER=admin
-      # - PGUSER=admin
-      # - POSTGRES_DB=splittle_db
     ports:
       - "5432:5432"
     healthcheck:
@@ -33,15 +29,16 @@ services:
       interval: 1s
       timeout: 5s
       retries: 10
-    # volumes:
-    #   - pgdata:/var/lib/postgresql/data
-
   adminer:
     image: adminer
     restart: always
     ports:
       - "8080:8080"
-
-#volumes:
-#  pgdata:
+  lb:
+    build: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    # depends_on:
+    #  - next-app
 
